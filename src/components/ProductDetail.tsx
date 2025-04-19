@@ -133,7 +133,7 @@ const ProductDetail = () => {
           variants={fadeIn("up", 0.5)}
           className="mt-6 w-full mx-auto text-center"
         >
-          <p className="text-gray-700 text-3xl leading-relaxed">
+          <p className="text-gray-700 text-3xl leading-relaxed italic">
             {description}
           </p>
         </motion.div>
@@ -196,20 +196,22 @@ const ProductDetail = () => {
         </motion.div>
 
         {/* Slider of products */}
-        <motion.div variants={fadeIn("up", 1)} >
-          <ProductSlider />
-        </motion.div>
+        <div className="flex flex-col gap-[4rem] mt-[4rem]">
+          <motion.div variants={fadeIn("up", 1)} >
+            <ProductSlider />
+          </motion.div>
 
-        {/* all images */}
-        <motion.div variants={fadeIn("up", 1)} >
-          <Gallery />
-        </motion.div>
+          {/* all images */}
+          <motion.div variants={fadeIn("up", 1)} >
+            <Gallery />
+          </motion.div>
 
-        {/* all Comments */}
-        <motion.div variants={fadeIn("up", 1)} >
-          <AddComment/>
-          <Comments />
-        </motion.div>
+          {/* all Comments */}
+          <motion.div variants={fadeIn("up", 1)} >
+            <AddComment/>
+            <Comments />
+          </motion.div>
+        </div>
         
         <Faq/>
       </div>

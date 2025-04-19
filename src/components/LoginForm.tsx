@@ -3,13 +3,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { motion } from "framer-motion";
 import SignInWithGoogleButton from "./SignInWithGoogleButton";
-import { LoginFormData, SignUpFormData,  } from "../types";
 import { Link } from "react-router-dom";
 import PageNav from "./PageNav";
+import { AuthFormInput } from "../types";
 
-interface LoginFormProps<T> {
+
+interface LoginFormProps {
   isSignup: boolean;
-  onSubmit: (data: T ) => Promise<void>;
+  onSubmit: (data: AuthFormInput) => Promise<void>;
 }
 
 const loginSchema = Yup.object().shape({
@@ -21,159 +22,124 @@ const signupSchema = loginSchema.shape({
   name: Yup.string().required("Name is required"),
 });
 
-
-const  LoginForm = <T extends LoginFormData | SignUpFormData>({ isSignup, onSubmit }: LoginFormProps<T>) => {
+const LoginForm = ({ isSignup, onSubmit }: LoginFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormData | SignUpFormData>({
+  } = useForm<AuthFormInput>({
     resolver: yupResolver(isSignup ? signupSchema : loginSchema),
   });
 
-  const submitHandler: SubmitHandler< LoginFormData | SignUpFormData> = (data) => {
+  const submitHandler: SubmitHandler<AuthFormInput> = (data) => {
     onSubmit(data);
   };
 
-
-  const fadeIn = {
-    hidden: { opacity: 0, y: 30 },
-    visible: (custom: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: custom * 0.2, duration: 0.6, ease: "easeOut" },
-    }),
-  };
-  
-  const buttonHover = {
-    scale: 1.05,
-    boxShadow: "0px 4px 15px rgba(0, 118, 255, 0.5)",
-  };
-
-
   return (
     <section className="bg-slate-300 w-screen h-screen pt-[2rem] px-[1rem]">
-    <div className="container mx-auto mb-[3rem]">
-      <PageNav/>
-    </div>
+      <div className="container mx-auto mb-[3rem]">
+        <PageNav />
+      </div>
 
-
-    <motion.div
-      className="max-w-md mx-auto p-8  border rounded-2xl shadow-2xl bg-white relative overflow-hidden"
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-    >
-      {/* Background animated shapes */}
       <motion.div
-        className="absolute -top-16 -left-16 w-40 h-40 bg-blue-400 rounded-full opacity-30"
-        animate={{ x: [0, 20, 0], y: [0, 20, 0] }}
-        transition={{ duration: 5, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute -bottom-16 -right-16 w-52 h-52 bg-purple-400 rounded-full opacity-20"
-        animate={{ x: [0, -20, 0], y: [0, -20, 0] }}
-        transition={{ duration: 6, repeat: Infinity }}
-      />
-
-      <motion.h2
-        className="text-3xl font-extrabold text-center mb-6 text-gray-800"
-        custom={1}
-        initial="hidden"
-        animate="visible"
-        variants={fadeIn}
+        className="max-w-md mx-auto p-8 border rounded-2xl shadow-2xl bg-white relative overflow-hidden"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        {isSignup ? "Create Account" : "Welcome Back"}
-      </motion.h2>
+        {/* Background shapes */}
+        <motion.div
+          className="absolute -top-16 -left-16 w-40 h-40 bg-blue-400 rounded-full opacity-30"
+          animate={{ x: [0, 20, 0], y: [0, 20, 0] }}
+          transition={{ duration: 5, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute -bottom-16 -right-16 w-52 h-52 bg-purple-400 rounded-full opacity-20"
+          animate={{ x: [0, -20, 0], y: [0, -20, 0] }}
+          transition={{ duration: 6, repeat: Infinity }}
+        />
 
-      <motion.form
-        onSubmit={handleSubmit(submitHandler)}
-        initial="hidden"
-        animate="visible"
-        variants={fadeIn}
-        custom={2}
-        className="space-y-4"
-      >
-        {isSignup && (
-          <motion.div variants={fadeIn} custom={3}>
-            <input
-              {...register("name")}
-              type="text"
-              placeholder="Name"
-              className="border p-3 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-            />
-            {"name" in errors && errors.name && (
-              <p className="text-red-500 text-sm">{errors.name.message}</p>
-            )}
-          </motion.div>
-        )}
-
-        <motion.div variants={fadeIn} custom={4}>
-          <input
-            {...register("email")}
-            type="email"
-            placeholder="Email"
-            className="border p-3 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email.message}</p>
-          )}
-        </motion.div>
-
-        <motion.div variants={fadeIn} custom={5}>
-          <input
-            {...register("password")}
-            type="password"
-            placeholder="Password"
-            className="border p-3 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-          />
-          {errors.password && (
-            <p className="text-red-500 text-sm">{errors.password.message}</p>
-          )}
-        </motion.div>
-
-        <motion.button
-          whileHover={buttonHover}
-          whileTap={{ scale: 0.95 }}
-          type="submit"
-          className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 rounded-lg shadow-md transition duration-300"
+        <motion.h2
+          className="text-3xl font-extrabold text-center mb-6 text-gray-800"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
         >
-          {isSignup ? "Sign Up" : "Log In"}
-        </motion.button>
-      </motion.form>
+          {isSignup ? "Create Account" : "Welcome Back"}
+        </motion.h2>
 
-      <motion.p
-        className="mt-6 text-center text-gray-600"
-        custom={6}
-        initial="hidden"
-        animate="visible"
-        variants={fadeIn}
-      >
-        {isSignup ? (
-          <>
-            Already have an account?
-            <br />
-            <Link to="/login" className="text-blue-500 underline my-[2rem] cursor-pointer size-5 z-40">
-              Log in {" "}
-            </Link>
-          </>
-        ) : (
-          <>
-            Don't have an account?
-            <br />
-            <Link to="/signup" className="text-blue-500 underline my-[2rem] cursor-pointer size-5 z-40">
-              Sign up {' '}
-            </Link>
-          </>
-        )}
-      </motion.p>
+        <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
+          {isSignup && (
+            <div>
+              <input
+                {...register("name")}
+                type="text"
+                placeholder="Name"
+                className="border p-3 w-full rounded focus:ring-2 focus:ring-blue-400"
+              />
+              {errors.name && (
+                <p className="text-red-500 text-sm">{errors.name.message}</p>
+              )}
+            </div>
+          )}
 
-      <motion.div custom={7} initial="hidden" animate="visible" variants={fadeIn} className="mt-4">
-        <SignInWithGoogleButton />
+          <div>
+            <input
+              {...register("email")}
+              type="email"
+              placeholder="Email"
+              className="border p-3 w-full rounded focus:ring-2 focus:ring-blue-400"
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
+          </div>
+
+          <div>
+            <input
+              {...register("password")}
+              type="password"
+              placeholder="Password"
+              className="border p-3 w-full rounded focus:ring-2 focus:ring-blue-400"
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
+          </div>
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            type="submit"
+            className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 rounded-lg shadow-md"
+          >
+            {isSignup ? "Sign Up" : "Log In"}
+          </motion.button>
+        </form>
+
+        <p className="mt-6 text-center text-gray-600">
+          {isSignup ? (
+            <>
+              Already have an account?{" "} <br />
+              <Link to="/login" className="text-blue-500 underline">
+                Log in
+              </Link>
+            </>
+          ) : (
+            <>
+              Don’t have an account?{" "} <br />
+              <Link to="/signup" className="text-blue-500 underline">
+                Sign up
+              </Link>
+            </>
+          )}
+        </p>
+
+        <div className="mt-4">
+          <SignInWithGoogleButton />
+        </div>
       </motion.div>
-    </motion.div>
     </section>
-
   );
 };
 

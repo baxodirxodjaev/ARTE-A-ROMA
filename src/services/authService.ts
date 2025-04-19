@@ -34,7 +34,7 @@ export const signInWithGoogle = async (): Promise<User | null> => {
 };
 
 //  Registration via Email/Password
-export const signUpWithEmail = async (email: string, password: string, name: string): Promise<User | null> => {
+export const signUpWithEmail = async (email: string, password: string, name: string) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const firebaseUser = userCredential.user;
@@ -47,6 +47,7 @@ export const signUpWithEmail = async (email: string, password: string, name: str
       role: "user",
       likedEvents: [],
       likedProducts: [],
+      createdAt : new Date().toISOString(),
     };
 
     await setDoc(doc(db, "users", firebaseUser.uid), newUser);
@@ -62,7 +63,22 @@ export const signUpWithEmail = async (email: string, password: string, name: str
 export const loginWithEmail = async (email: string, password: string): Promise<User | null> => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    return userCredential.user as any; // Download user from Firestore в `AuthContext`
+    const firebaseUser = userCredential.user;
+
+    if (!firebaseUser.uid || !firebaseUser.email) return null;
+
+    const user: User = {
+      id: firebaseUser.uid,
+      name: firebaseUser.displayName || "No name",
+      email: firebaseUser.email,
+      avatar: firebaseUser.photoURL || "",
+      role:  firebaseUser.email !== 'baxodirxodjaevone@gmail.com' && 
+             firebaseUser.email !== 'artearomainfo@gmail.com' ? "user" : "admin",
+      likedEvents: [],
+      likedProducts: [],
+    };
+
+    return user;
   } catch (error) {
     console.error("Ошибка входа:", error);
     return null;

@@ -1,6 +1,7 @@
-import { db } from "../services/firebase"; // Подключаем Firestore
+import { db } from "../services/firebase";
 import { collection, addDoc, getDocs, deleteDoc, updateDoc, doc, orderBy, query } from "firebase/firestore";
 import { Comments } from "../types";
+import { useCreateQuery } from "../hooks/useCreateQuery";
 
 
 
@@ -22,6 +23,9 @@ export const getComments = async () : Promise<Comments[]> => {
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Comments)) ;
 };
+
+export const useComments = () => useCreateQuery<Comments>("comments", getComments);
+
 
 // 🔹 Удаление комментария
 export const deleteComment = async (commentId : string) => {

@@ -7,7 +7,7 @@ export const useProductActions = () => {
 
   // like products
   const likeProductMutation = useMutation({
-    mutationFn: ({ productId  , userId, likes } : {productId : string, userId : string, likes : string[] }) => likeProduct(productId , userId, likes),
+    mutationFn:  likeProduct,
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["products"] });
       },

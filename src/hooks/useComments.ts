@@ -1,14 +1,7 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { addComment, getComments, deleteComment, likeComment } from "../services/commentService";
+import {  useMutation, useQueryClient } from "@tanstack/react-query";
+import { addComment, deleteComment, likeComment } from "../services/commentService";
 import { toast } from "react-toastify";
 
-//  Get comments
-export const useComments = () => {
-    return useQuery({
-      queryKey: ["comments"],
-      queryFn: getComments,
-    });
-  };
 
 //  Hook to working with comments
 export const useCommentActions = () => {

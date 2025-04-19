@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { Homepage } from "../types";
+import { Homepage, HomepageFormInput } from "../types";
 import { useState } from "react";
 import { deleteFile, getPathFromUrl, uploadFile } from "../services/storageService";
 import { toast } from "react-toastify";
@@ -28,7 +28,7 @@ const HomepageForm = ({ initialData, onSubmit, onClose }: HomepageFormProps) => 
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm <HomepageFormInput>({
     resolver: yupResolver(homepageSchema),
     defaultValues: {
       homeTitle: initialData?.homeTitle || "",
@@ -36,7 +36,7 @@ const HomepageForm = ({ initialData, onSubmit, onClose }: HomepageFormProps) => 
     },
   });
 
-  const handleFormSubmit = async (data: Homepage) => {
+  const handleFormSubmit = async (data: HomepageFormInput) => {
     if (!localPoster.url && !localPoster.file) {
       toast.error("Poster is required.");
       return;
@@ -65,7 +65,7 @@ const HomepageForm = ({ initialData, onSubmit, onClose }: HomepageFormProps) => 
       await onSubmit({
         ...initialData,
         ...data,
-        homePoster: finalPosterUrl,
+        homePoster: finalPosterUrl!,
       });
   
       toast.success("Homepage updated!");

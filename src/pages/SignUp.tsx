@@ -1,14 +1,18 @@
-// SignUp.tsx
 import { useNavigate } from "react-router-dom";
 import { signUpWithEmail } from "../services/authService";
 import LoginForm from "../components/LoginForm";
 import { toast } from "react-toastify";
-import { SignUpFormData } from "../types";
+import { AuthFormInput } from "../types";
 
 const SignUp = () => {
   const navigate = useNavigate();
 
-  const onSubmit = async (data: SignUpFormData) => {
+  const onSubmit = async (data: AuthFormInput) => {
+    if (!data.name) {
+      toast.error("Name is required", { position: "top-right" });
+      return;
+    }
+
     const user = await signUpWithEmail(data.email, data.password, data.name);
     if (user) {
       toast.success("Account created successfully!", { position: "top-right" });
@@ -18,7 +22,7 @@ const SignUp = () => {
     }
   };
 
-  return <LoginForm<SignUpFormData> isSignup={true} onSubmit={onSubmit} />;
+  return <LoginForm isSignup={true} onSubmit={onSubmit} />;
 };
 
 export default SignUp;

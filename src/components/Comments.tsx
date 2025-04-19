@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
-import { useComments, useCommentActions } from "../hooks/useComments";
+import {  useCommentActions } from "../hooks/useComments";
 import { motion } from "framer-motion";
+import { useComments } from "../services/commentService";
 
 const Comments = () => {
   const { user } = useAuth();
@@ -88,8 +89,12 @@ const Comments = () => {
             <div className="flex items-center gap-6 mt-2">
               <button
                 onClick={() => handleLikeComment(comment.id, comment.likes)}
-                className={`flex items-center gap-1 text-red-500 hover:text-red-600 transition ${
-                  comment.likes.includes(user?.id) ? "font-extrabold" : ""
+                className={`flex items-center gap-1 text-red-400 hover:text-red-600 transition ${
+                  
+                    user?.id && comment.likes.includes(user.id)
+                      ? "font-extrabold scale-110 text-red-600 "
+                      : ""
+                  
                 }`}
               >
                 ❤️ {comment.likes.length}

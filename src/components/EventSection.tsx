@@ -15,7 +15,7 @@ const EventSection = ({ event }: { event: Product[] }) => {
       return;
     }
 
-    likeProductMutation.mutate({ productId: id, userId: user.id, likes } );
+    likeProductMutation.mutate({ id: id, userId: user.id, likes } );
   };
 
   const containerVariants = {

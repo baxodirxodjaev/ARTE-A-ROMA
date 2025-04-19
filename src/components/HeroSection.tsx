@@ -33,7 +33,7 @@ const HeroSection = () => {
         className={styles["hero-image"]}
       />
       <div className={`${styles["hero-content"]} mt-[60px] sm:mt-0`}>
-        <h1 className={`${styles["hero-title"]} titles`}>{homeTitle}</h1>
+        <h1 className={`${styles["hero-title"]} text-3xl sm:text-4xl md:text-5xl lg:text-6xl titles font-extrabold text-gray-800 mb-[2rem] leading-tight `}>{homeTitle}</h1>
         <p className={styles["hero-text"]}>{homeDescription}</p>
         <Link to="/product" className={`${styles["hero-button"]} animate-pulse `}>
           Reservations

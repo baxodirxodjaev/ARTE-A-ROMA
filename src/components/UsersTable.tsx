@@ -4,7 +4,7 @@ import Spinner from './Spinner';
 import { Product } from '../types';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useComments } from '../hooks/useComments';
+import { useComments } from '../services/commentService';
 
 const UsersTable = () => {
   const { data: users, isLoading: isLoadingUsers, error: errorUsers } = useUsers();

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { Product } from "../types";
+import { Product, ProductFormInput } from "../types";
 import { deleteFile, getPathFromUrl, uploadFile } from "../services/storageService";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -22,7 +22,10 @@ const productSchema = Yup.object().shape({
   date: Yup.string().required("Date is required"),
   location: Yup.string().required("Location is required"),
   isActive: Yup.boolean().default(true),
-  likes: Yup.array(),
+  likes: Yup.array()
+  .of(Yup.string().required())
+  .required()
+  .default([]),
 });
 
 const ProductForm = ({ initialData, onSubmit, onClose }: ProductFormProp) => {
@@ -43,7 +46,7 @@ const ProductForm = ({ initialData, onSubmit, onClose }: ProductFormProp) => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<ProductFormInput>({
     resolver: yupResolver(productSchema),
     defaultValues: initialData || {
       name: "",
@@ -66,7 +69,7 @@ const ProductForm = ({ initialData, onSubmit, onClose }: ProductFormProp) => {
   };
 
   
-  const handleFormSubmit = async (data: Product) => {
+  const handleFormSubmit = async (data: ProductFormInput) => {
     if (!localPoster.url && !localPoster.file) {
       toast.error("Please upload a poster image!");
       return;
@@ -105,7 +108,7 @@ const ProductForm = ({ initialData, onSubmit, onClose }: ProductFormProp) => {
         ...data,
         poster: finalPosterUrl!,
         images: finalImages,
-      });
+      } as Product);
 
       toast.success(initialData ? "Product updated!" : "Product added!");
       reset();

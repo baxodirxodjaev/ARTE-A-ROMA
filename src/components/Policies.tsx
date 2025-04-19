@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { usePolicy } from "../hooks/usePolicy"
 import { Policy } from "../types"
 import Spinner from "./Spinner"
+import { usePolicy } from "../services/dataBaseSecvice"
 
 
 const Policies = ({value} : {value: string}) => {

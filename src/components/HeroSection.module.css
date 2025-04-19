@@ -40,16 +40,9 @@
   
   /* Заголовок с анимацией */
   .hero-title {
-    font-size: 3rem;
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-
-
-    font-family: "Josefin Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 397;
-    font-style: normal;
   }
   
   /* Заголовок появится только если loaded у `section` */
