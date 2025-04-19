@@ -133,7 +133,7 @@ const ProductDetail = () => {
           variants={fadeIn("up", 0.5)}
           className="mt-6 w-full mx-auto text-center"
         >
-          <p className="text-gray-700 text-3xl leading-relaxed italic">
+          <p className="text-gray-700 text-3xl my-[3rem] leading-relaxed italic">
             {description}
           </p>
         </motion.div>

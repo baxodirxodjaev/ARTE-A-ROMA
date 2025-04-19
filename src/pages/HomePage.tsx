@@ -15,6 +15,10 @@ import { Product,  } from '../types'
 import Faq from '../components/Faq'
 import WhatsappInstagram from '../components/WhatsappInstagram'
 import { motion } from 'framer-motion'
+import bgMiniImg from '../../public/icons/bgsection mini shade 1.svg'
+import bgMiniImg2 from '../../public/icons/bgsection mini img shade2.svg'
+import bgMiniImg3 from '../../public/icons/hand-draw-colorful-watercolor-strock-design.svg'
+
 
 const HomePage = () => {
   const { data: products, isLoading: isLoadingProducts, error: errorProducts } = useProducts()
@@ -52,8 +56,8 @@ const HomePage = () => {
         <div className="container mx-auto px-6 pb-6">
           <PageNav />
           {events.length > 0 && <EventSection event={events} />}
-          {homepage[1] && <HomePageSections homepage={homepage[1]} />}
-          {homepage[3] && <HomePageSections homepage={homepage[3]} />}
+          {homepage[1] && <HomePageSections homepage={homepage[1]} bgElementImg = {bgMiniImg} />}
+          {homepage[3] && <HomePageSections homepage={homepage[3]} bgElementImg = {bgMiniImg2}/>}
         </div>
       </div>
 
@@ -75,9 +79,9 @@ const HomePage = () => {
       )}
 
 
-      <div className="w-full p-5 bg-gray-100">
+      <div className="w-full p-5 bg-white">
         <div className="container mx-auto w-full">
-          {homepage[0] && <HomePageSections homepage={homepage[0]} />}
+          {homepage[0] && <HomePageSections homepage={homepage[0]} bgElementImg = {bgMiniImg3}/>}
           <GallerySlider  />
           <ProductSlider  />
           <AddComment />

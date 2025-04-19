@@ -7,6 +7,28 @@ import { getStorage } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+
+
+const {
+  VITE_FIREBASE_API_KEY,
+  VITE_FIREBASE_AUTH_DOMAIN,
+  VITE_FIREBASE_PROJECT_ID,
+  VITE_FIREBASE_STORAGE_BUCKET,
+  VITE_FIREBASE_MESSAGING_SENDER_ID,
+  VITE_FIREBASE_APP_ID
+} = import.meta.env;
+
+if (
+  !VITE_FIREBASE_API_KEY ||
+  !VITE_FIREBASE_AUTH_DOMAIN ||
+  !VITE_FIREBASE_PROJECT_ID ||
+  !VITE_FIREBASE_STORAGE_BUCKET ||
+  !VITE_FIREBASE_MESSAGING_SENDER_ID ||
+  !VITE_FIREBASE_APP_ID
+) {
+  throw new Error("❌ Missing Firebase environment variables. Please check your .env file.");
+}
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,

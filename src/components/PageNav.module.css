@@ -41,7 +41,7 @@
 
 /* Ссылки при активной странице */
 .navLinks .active {
-  font-weight: bold;
+  font-weight:500;
   /* color: #9dff81; красный цвет для активных ссылок */
   text-decoration: underline;
 }
